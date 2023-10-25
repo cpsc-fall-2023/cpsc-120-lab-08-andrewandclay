@@ -9,17 +9,20 @@
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> arguments{argv, argv + argc};
-  if (arguments.size() < 2) {
+  if (arguments.size() <= 1) {
     std::cout << "error: you must supply at least one number";
     return 1;
   }
-
-  double count = 0.0;
   double total = 0.0;
-  double value = 0.0;
-  for (int loop = 1; loop < arguments.size(); loop++) {
-    value = std::stod(arguments.at(loop));
-    total += value;
+  int count = 0;
+  bool skip = false;
+
+  for (std::string const& argument : arguments) {
+    if (!skip) {
+      skip = true;
+      continue;
+    }
+    total += std::stod(argument);
     count++;
   }
   double average = total / count;
